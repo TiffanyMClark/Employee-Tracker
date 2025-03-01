@@ -1,11 +1,13 @@
 import { Pool } from "pg";
 import inquirer from "inquirer";
 
+// viewing all the employees
 export async function viewAllEmployees(pool: Pool): Promise<void> {
   const res = await pool.query("SELECT * FROM employees");
   console.table(res.rows);
 }
 
+// adding the employees
 export async function addEmployee(pool: Pool): Promise<void> {
   const answers = await inquirer.prompt([
     { type: "input", name: "first_name", message: "Enter first name:" },

@@ -1,23 +1,31 @@
 import inquirer from "inquirer";
-import { Pool } from "pg";
+import pkg from "pg";
+const { Pool } = pkg;
+import dotenv from "dotenv";
 import {
   viewAllEmployees,
   addEmployee,
   updateEmployeeRole,
-} from "../Employee-Tracker/employeeActions.js";
-import { viewAllRoles, addRole } from "./roleActions.js";
-import { viewAllDepartments, addDepartment } from "./departmentActions.js";
+} from "../employee/employeeActions.js";
+
+import { viewAllRoles, addRole } from "../roles/roleActions.js";
+import {
+  viewAllDepartments,
+  addDepartment,
+} from "../departments/department.js";
+
+dotenv.config();
 
 // Database connection
 const pool = new Pool({
-  user: "your_db_user",
-  host: "your_db_host",
-  database: "your_db_name",
-  password: "your_db_password",
-  port: 3003,
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+  port: parseInt(process.env.DB_PORT || "5432"),
 });
 
-// making the main menu for the command line
+// Making the main menu for the command line
 class MainMenu {
   exit: boolean = false;
   async start(): Promise<void> {
