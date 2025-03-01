@@ -1,0 +1,33 @@
+{
+  "name": "employee-tracker",
+  "version": "1.0.0",
+  "description": "building a command-line application from scratch to manage a company's employee database, using Node.js, Inquirer, and PostgreSQL.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "type": "module",
+    "build": "npx tsc",
+    "start": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TiffanyMClark/Employee-Tracker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/TiffanyMClark/Employee-Tracker/issues"
+  },
+  "homepage": "https://github.com/TiffanyMClark/Employee-Tracker#readme",
+  "dependencies": {
+    "inquirer": "^12.4.2",
+    "pg": "^8.13.3",
+    "scripts": "^0.1.0",
+    "type": "^2.7.3"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.11.11"
+  }
+}
