@@ -2,19 +2,17 @@ import inquirer from "inquirer";
 import pkg from "pg";
 const { Pool } = pkg;
 import dotenv from "dotenv";
+dotenv.config();
 import {
   viewAllEmployees,
   addEmployee,
   updateEmployeeRole,
 } from "../employee/employeeActions.js";
-
 import { viewAllRoles, addRole } from "../roles/roleActions.js";
 import {
   viewAllDepartments,
   addDepartment,
 } from "../departments/department.js";
-
-dotenv.config();
 
 // Database connection
 const pool = new Pool({
@@ -25,9 +23,10 @@ const pool = new Pool({
   port: parseInt(process.env.DB_PORT || "5432"),
 });
 
-// Making the main menu for the command line
+// Main menu class
 class MainMenu {
   exit: boolean = false;
+
   async start(): Promise<void> {
     while (!this.exit) {
       const { menuOption } = await inquirer.prompt([

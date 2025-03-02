@@ -11,10 +11,10 @@ import inquirer from "inquirer";
 import pkg from "pg";
 const { Pool } = pkg;
 import dotenv from "dotenv";
+dotenv.config();
 import { viewAllEmployees, addEmployee, updateEmployeeRole, } from "../employee/employeeActions.js";
 import { viewAllRoles, addRole } from "../roles/roleActions.js";
 import { viewAllDepartments, addDepartment, } from "../departments/department.js";
-dotenv.config();
 // Database connection
 const pool = new Pool({
     user: process.env.DB_USER,
@@ -23,7 +23,7 @@ const pool = new Pool({
     password: process.env.DB_PASSWORD,
     port: parseInt(process.env.DB_PORT || "5432"),
 });
-// Making the main menu for the command line
+// Main menu class
 class MainMenu {
     constructor() {
         this.exit = false;

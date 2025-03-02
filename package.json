@@ -21,7 +21,10 @@
   },
   "homepage": "https://github.com/TiffanyMClark/Employee-Tracker#readme",
   "dependencies": {
+    "boxen": "^8.0.1",
+    "chalk": "^5.4.1",
     "dotenv": "^16.4.7",
+    "figlet": "^1.8.0",
     "inquirer": "^12.4.2",
     "pg": "^8.13.3"
   },
