@@ -11,6 +11,7 @@ import inquirer from "inquirer";
 import pkg from "pg";
 const { Pool } = pkg;
 import dotenv from "dotenv";
+import chalk from "chalk";
 dotenv.config();
 import { viewAllEmployees, addEmployee, updateEmployeeRole, } from "../employee/employeeActions.js";
 import { viewAllRoles, addRole } from "../roles/roleActions.js";
@@ -30,6 +31,10 @@ class MainMenu {
     }
     start() {
         return __awaiter(this, void 0, void 0, function* () {
+            // Display the chalk title here
+            console.log(chalk.blue.bold("===================================="));
+            console.log(chalk.green.bold("   Welcome to the Employee Manager   "));
+            console.log(chalk.blue.bold("===================================="));
             while (!this.exit) {
                 const { menuOption } = yield inquirer.prompt([
                     {
