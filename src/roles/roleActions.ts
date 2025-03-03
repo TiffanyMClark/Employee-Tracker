@@ -1,4 +1,3 @@
-import pg from "pg";
 import { Pool } from "pg";
 import inquirer from "inquirer";
 
