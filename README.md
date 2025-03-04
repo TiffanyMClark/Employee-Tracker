@@ -10,33 +10,33 @@
 - [License](#license)
 - [Features](#features)
 
-  ## Description
+## Description
 
-  This is a Typescript prompter for an Employee tracker to work with the command line and into psql
+This is a Typescript prompter for an Employee tracker to work with the command line and into psql
 
-  ## Installation
+## Installation
 
-  inquirer,
-  chalk,
-  pg,
+inquirer,
+chalk,
+pg,
 
-  ## Tests
+## Tests
 
-  right click on the package.json and open with your integrated terminal open your psql -U postgres, \q to go back to the command line, and type in npm run build, after that
+right click on the package.json and open with your integrated terminal open your psql -U postgres, \q to go back to the command line, and type in npm run build, after that
 
-  pg_ctl start -D "C:/Program Files/PostgreSQL/17/data"
+pg_ctl start -D "C:/Program Files/PostgreSQL/17/data"
 
-  to make sure the psql terminal is running in the background
-  when it is then we do nmp run start to start the whole thing.
+to make sure the psql terminal is running in the background
+when it is then we do nmp run start to start the whole thing.
 
-  ## license
+## license
 
-  MIT
+MIT
 
-  ## GitHub
+## GitHub
 
-  [Project Repository](https://github.com/TiffanyMClark/Employee-Tracker)
+[Project Repository](https://github.com/TiffanyMClark/Employee-Tracker)
 
-  ## Features
+## Features
 
-  building a command-line application from scratch to manage a company's employee database, using Node.js, Inquirer, and PostgreSQL.
+building a command-line application from scratch to manage a company's employee database, using Node.js, Inquirer, and PostgreSQL.

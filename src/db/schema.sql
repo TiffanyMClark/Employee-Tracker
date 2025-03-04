@@ -16,7 +16,7 @@ CREATE TABLE roles (
   id SERIAL PRIMARY KEY,
   title VARCHAR(30) UNIQUE NOT NULL,
   salary DECIMAL NOT NULL,
-  department_id INTEGER NOT NULL REFERENCES departments(id) ON DELETE CASCADE
+  department_id INTEGER NOT NULL
 );
 
 -- Create the employees table

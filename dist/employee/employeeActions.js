@@ -8,35 +8,71 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import inquirer from "inquirer";
-// viewing all the employees
+// Viewing all the employees
 export function viewAllEmployees(pool) {
     return __awaiter(this, void 0, void 0, function* () {
         const res = yield pool.query("SELECT * FROM employees");
         console.table(res.rows);
     });
 }
-// adding the employees
+// Adding the employees with error handling for invalid role_id
 export function addEmployee(pool) {
     return __awaiter(this, void 0, void 0, function* () {
-        const answers = yield inquirer.prompt([
-            { type: "input", name: "first_name", message: "Enter first name:" },
-            { type: "input", name: "last_name", message: "Enter last name:" },
-            { type: "input", name: "role_id", message: "Enter role ID:" },
-            {
-                type: "input",
-                name: "manager_id",
-                message: "Enter manager ID (or leave blank if none):",
-            },
-        ]);
-        yield pool.query("INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3, $4)", [
-            answers.first_name,
-            answers.last_name,
-            answers.role_id,
-            answers.manager_id || null, // Allow NULL for manager_id
-        ]);
-        console.log("Employee added!");
+        let success = false;
+        while (!success) {
+            try {
+                const answers = yield inquirer.prompt([
+                    { type: "input", name: "first_name", message: "Enter first name:" },
+                    { type: "input", name: "last_name", message: "Enter last name:" },
+                    { type: "input", name: "role_id", message: "Enter role ID:" },
+                    {
+                        type: "input",
+                        name: "manager_id",
+                        message: "Enter manager ID (or leave blank if none):",
+                    },
+                ]);
+                // Check if the role_id is valid (exists in the roles table)
+                const roleRes = yield pool.query("SELECT id FROM roles WHERE id = $1", [
+                    answers.role_id,
+                ]);
+                if (roleRes.rows.length === 0) {
+                    throw new Error("Invalid role ID. Please enter a valid role ID.");
+                }
+                // Insert the new employee
+                yield pool.query("INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3, $4)", [
+                    answers.first_name,
+                    answers.last_name,
+                    answers.role_id,
+                    answers.manager_id || null, // Allow NULL for manager_id
+                ]);
+                console.log("Employee added!");
+                success = true; // Break the loop if no error occurs
+            }
+            catch (error) {
+                if (error instanceof Error) {
+                    console.error("Error adding employee:", error.message);
+                }
+                else {
+                    console.error("An unknown error occurred.");
+                }
+                // Ask the user if they want to retry
+                const { retry } = yield inquirer.prompt([
+                    {
+                        type: "confirm",
+                        name: "retry",
+                        message: "Would you like to try again?",
+                        default: true,
+                    },
+                ]);
+                if (!retry) {
+                    console.log("Operation cancelled.");
+                    success = true; // Exit the loop if the user cancels
+                }
+            }
+        }
     });
 }
+// Updating employee role
 export function updateEmployeeRole(pool) {
     return __awaiter(this, void 0, void 0, function* () {
         const employeesRes = yield pool.query("SELECT id, first_name, last_name FROM employees");
@@ -70,37 +106,5 @@ export function updateEmployeeRole(pool) {
             selectedEmployeeId,
         ]);
         console.log("Employee role updated successfully!");
-    });
-}
-// Deleting an employee
-export function deleteEmployee(pool) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const employeesRes = yield pool.query("SELECT id, first_name, last_name FROM employees");
-        const employees = employeesRes.rows.map((employee) => ({
-            name: `${employee.first_name} ${employee.last_name}`,
-            value: employee.id,
-        }));
-        const { selectedEmployeeId } = yield inquirer.prompt([
-            {
-                type: "list",
-                name: "selectedEmployeeId",
-                message: "Select an employee to delete:",
-                choices: employees,
-            },
-        ]);
-        const { confirmDelete } = yield inquirer.prompt([
-            {
-                type: "confirm",
-                name: "confirmDelete",
-                message: "Are you sure you want to delete this employee?",
-                default: false,
-            },
-        ]);
-        if (confirmDelete) {
-            yield pool.query("DELETE FROM employees WHERE id = $1", [
-                selectedEmployeeId,
-            ]);
-            console.log("Employee deleted successfully!");
-        }
     });
 }
