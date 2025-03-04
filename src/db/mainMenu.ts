@@ -30,9 +30,11 @@ class MainMenu {
 
   async start(): Promise<void> {
     // Display the chalk title here
-    console.log(chalk.blue.bold("===================================="));
-    console.log(chalk.green.bold("   Welcome to the Employee Manager   "));
-    console.log(chalk.blue.bold("===================================="));
+    console.log(chalk.yellow.bold("===================================="));
+
+    console.log(chalk.blue.bold("        Employee Manager   "));
+
+    console.log(chalk.yellow.bold("===================================="));
 
     while (!this.exit) {
       const { menuOption } = await inquirer.prompt([

@@ -1,31 +1,33 @@
--- Create new databases --
+-- Drop the database if it exists and create a new one
 DROP DATABASE IF EXISTS employees_db;
 CREATE DATABASE employees_db;
--- Use inventory_db --
+
+-- Connect to the new database
 \c employees_db;
 
--- See database in use --
-SELECT current_database();
-
+-- Create the departments table
 CREATE TABLE departments (
   id SERIAL PRIMARY KEY,
-  name VARCHAR(30) NOT NULL
-);
-CREATE TABLE roles (
-  id SERIAL PRIMARY KEY,
-  title VARCHAR(30) NOT NULL,
-  salary DECIMAL NOT NULL,
-  department_id INT REFERENCES departments(id)
+  name VARCHAR(30) UNIQUE NOT NULL
 );
 
+-- Create the roles table
+CREATE TABLE roles (
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(30) UNIQUE NOT NULL,
+  salary DECIMAL NOT NULL,
+  department_id INTEGER NOT NULL REFERENCES departments(id) ON DELETE CASCADE
+);
+
+-- Create the employees table
 CREATE TABLE employees (
   id SERIAL PRIMARY KEY,
   first_name VARCHAR(30) NOT NULL,
   last_name VARCHAR(30) NOT NULL,
-  title_id INT REFERENCES roles(id),
-  department_id INT REFERENCES departments(id),
-  manager_id INT REFERENCES employees(id)
+  role_id INTEGER NOT NULL REFERENCES roles(id) ON DELETE CASCADE,
+  manager_id INTEGER REFERENCES employees(id) ON DELETE SET NULL
 );
+
 
 -- to see if is filled the tables correctly.--
 SELECT * FROM departments;

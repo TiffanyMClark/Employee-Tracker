@@ -22,7 +22,10 @@
 
   ## Tests
 
-  right click on the package.json and open with your integrated terminal and type in npm run build, after that pg_ctl status -D "C:/Program Files/PostgreSQL/17/data"
+  right click on the package.json and open with your integrated terminal open your psql -U postgres, \q to go back to the command line, and type in npm run build, after that
+
+  pg_ctl start -D "C:/Program Files/PostgreSQL/17/data"
+
   to make sure the psql terminal is running in the background
   when it is then we do nmp run start to start the whole thing.
 

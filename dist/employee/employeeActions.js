@@ -22,17 +22,17 @@ export function addEmployee(pool) {
             { type: "input", name: "first_name", message: "Enter first name:" },
             { type: "input", name: "last_name", message: "Enter last name:" },
             { type: "input", name: "role_id", message: "Enter role ID:" },
-            { type: "input", name: "salary", message: "Enter salary:" },
-            { type: "input", name: "department", message: "Enter department:" },
-            { type: "input", name: "manager_id", message: "Enter manager (if any):" },
+            {
+                type: "input",
+                name: "manager_id",
+                message: "Enter manager ID (or leave blank if none):",
+            },
         ]);
-        yield pool.query("INSERT INTO employees (first_name, last_name, role_id, salary, department, manager_id) VALUES ($1, $2, $3, $4)", [
+        yield pool.query("INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3, $4)", [
             answers.first_name,
             answers.last_name,
             answers.role_id,
-            answers.salary,
-            answers.department,
-            answers.manager_id || null,
+            answers.manager_id || null, // Allow NULL for manager_id
         ]);
         console.log("Employee added!");
     });
@@ -70,5 +70,37 @@ export function updateEmployeeRole(pool) {
             selectedEmployeeId,
         ]);
         console.log("Employee role updated successfully!");
+    });
+}
+// Deleting an employee
+export function deleteEmployee(pool) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const employeesRes = yield pool.query("SELECT id, first_name, last_name FROM employees");
+        const employees = employeesRes.rows.map((employee) => ({
+            name: `${employee.first_name} ${employee.last_name}`,
+            value: employee.id,
+        }));
+        const { selectedEmployeeId } = yield inquirer.prompt([
+            {
+                type: "list",
+                name: "selectedEmployeeId",
+                message: "Select an employee to delete:",
+                choices: employees,
+            },
+        ]);
+        const { confirmDelete } = yield inquirer.prompt([
+            {
+                type: "confirm",
+                name: "confirmDelete",
+                message: "Are you sure you want to delete this employee?",
+                default: false,
+            },
+        ]);
+        if (confirmDelete) {
+            yield pool.query("DELETE FROM employees WHERE id = $1", [
+                selectedEmployeeId,
+            ]);
+            console.log("Employee deleted successfully!");
+        }
     });
 }
