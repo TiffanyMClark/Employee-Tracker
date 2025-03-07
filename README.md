@@ -21,7 +21,7 @@ chalk,
 pg,
 
 ## Tests
-
+If you haven't already you need to login to your psql and create the databas and tables in order for it to add to it.
 right click on the package.json and open with your integrated terminal open your psql -U postgres, \q to go back to the command line, and type in npm run build, after that
 
 pg_ctl start -D "C:/Program Files/PostgreSQL/17/data"
